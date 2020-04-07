@@ -4,6 +4,8 @@
 
 *Real-Time Tiwtter Tweets -> Kafka Producer -> **KAFKA** -> Kafka Consume -> ElasticSearch Cluster*
 
+* #### For packages and files inside **src/main/java** and their description:
+
 ##### 1] com.yolo.kafka.basic 
 -It contains sample kafka producer and consumers.
 
