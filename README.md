@@ -1,3 +1,8 @@
+## KAFKA
+
+** This project is performing following task: **
+* Real-Time Tiwtter Tweets -> Kafka Producer -> **KAFKA** -> Kafka Consume -> ElasticSearch Cluster *
+
 1] com.yolo.kafka.basic 
 -It contains sample kafka producer and consumers.
 
