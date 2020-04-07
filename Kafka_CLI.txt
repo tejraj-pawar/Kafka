@@ -1,0 +1,76 @@
+==========CREATE KAFKA TOPIC:==========
+>kafka-topics --zookeeper 127.0.0.1:2181 --topic first_topic --create --partitions 3 --replication-factor 1
+//In topic name either use '.' or '_', but not both.
+//replication-factor can not be greater than number of brokers.
+//while creating topic, partitions and replication-factor fields are mandatory.
+
+==>LIST TOPICS:
+>kafka-topics --zookeeper 127.0.0.1:2181 --list
+
+==>DESCRIBE SPECIFIC TOPIC:
+>kafka-topics --zookeeper 127.0.0.1:2181 --topic first_topic --describe
+//here for any partition Leader:0 means, broker with id=0 is leader of partition.
+
+==>DELETE TOPIC:
+>kafka-topics --zookeeper 127.0.0.1:2181 --topic second_topic --delete
+//This will have no impact if delete.topic.enable is not set to true.
+
+
+==========KAFKA PRODUCER==========
+==START PRODUCER TO SEND MESSAGES
+>kafka-console-producer --broker-list 127.0.0.1:9092 --topic first_topic
+//Then start sending msgs to kafka broker.
+
+>kafka-console-producer --broker-list 127.0.0.1:9092 --topic first_topic --producer-property acks=all
+//sending messages with acks=all
+
+>kafka-console-producer --broker-list 127.0.0.1:9092 --topic new_topic
+//here we are sending msgs to non-existent topic. now here kafka will give us warning and will create new topic with default conf. mentioned in server.properties.
+
+==========KAFKA CONSUMER==========
+>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic
+//this will read only those msgs from kafka topic which sent after creation of this consumer. 
+
+>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic --from-beginning
+//--from-beginning will read all msgs including messages which are already there in topic and messages those are yet to arrive.
+
+
+==========KAFKA CONSUMER GROUP==========
+>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic --group kafka-comsumer-grp-1
+//above consumer is associated with consumer group named "kafka-comsumer-grp-1".
+
+Lets create new kafka consumer with same consumer group as below:
+>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic --group kafka-comsumer-grp-1 
+
+//above two kafka consumers associated with same consumer group and reading messages from same topic and they work hand-in-hand.
+//i.e. if first_topic topic has 3 partitions then first consumer will read from 1st and 2nd partition and second consumer will read from 3rd partition.
+//consumers associated with consumer group uses consumer offset concept. i.e. if any consumer from consumer group reads previous messages, then those messages can't be read again bcoz kafka commits consumer offset.
+//for more understanding see 5th video in kafka's CLI section.
+
+>kafka-consumer-groups(This tool helps to list all consumer groups, describe a consumer group, delete consumer group info, or reset consumer group offsets.)
+
+>kafka-consumer-groups --bootstrap-server localhost:9092 --list
+//this will list all consumer groups (optional: and if you see any group not created by you then those are created when you specify no group while creating consumer.)
+
+>kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group kafka-comsumer-grp-1
+Output of above command:
+===
+Consumer group 'kafka-comsumer-grp-1' has no active members.
+GROUP                TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID     HOST            CLIENT-ID
+kafka-comsumer-grp-1 first_topic     0          5               5               0               -               -               -
+kafka-comsumer-grp-1 first_topic     1          3               3               0               -               -               -
+kafka-comsumer-grp-1 first_topic     2          4               4               0               -               -               -
+===
+
+RESET OFFSET FOR CONSUMER GROUP:
+>kafka-consumer-groups --bootstrap-server localhost:9092 --group kafka-comsumer-grp-1 --reset-offsets --to-earliest --execute --topic first_topic
+Output of above command:(this will set offsets to 0 bcoz of --to-earliest and you can use other alternative option for this as mentioned below)
+===
+GROUP                          TOPIC                          PARTITION  NEW-OFFSET
+kafka-comsumer-grp-1           first_topic                    0          0
+kafka-comsumer-grp-1           first_topic                    2          0
+kafka-comsumer-grp-1           first_topic                    1          0
+===
+//above command will reset offset of kafka-comsumer-grp-1 for topic named first_topic.
+You must choose one of the following reset specifications:--to-datetime, --by-period, --to-earliest, --to-latest, --shift-by, --from-file, --to-current.
+

@@ -1,0 +1,37 @@
+==================kafka-windows-setup==================
+=======================================================
+//download kafka binaries:
+# Download Kafka at https://kafka.apache.org/downloads
+# Place at C:\kafka_2.12-2.0.0
+
+# Install Java 8 JDK:
+# http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+# Try out a Kafka command
+bin\windows\kafka-topics.bat
+
+# Edit your environment variables and add into PATH system variable
+C:\kafka_2.12-2.0.0\bin\windows
+
+# once above step is done, Open a new terminal and Try running the command from any directory:
+kafka-topics.bat
+
+===========Start Kafka & Zookeeper================
+==================================================
+# Create Zookeeper and Kafka Directory
+C:\kafka_2.12-2.0.0\data\zookeeper and C:\kafka_2.12-2.0.0\data\kafka
+
+# Edit config\zookeeper.properties and in that change line to (set dataDir path to new created zookeeper dir.)
+# dataDir=C:/kafka_2.12-2.0.0/data/zookeeper   //note change in slash
+
+# start zookeeper (make sure nothing is running on port 2181)
+zookeeper-server-start.bat config\zookeeper.properties  //note here that config is folder in kafka
+
+# Open a new command line (we leave zookeeper running in previous command line)
+# Edit config\server.properties and change line to (to store log in newly created kafka folder)
+# log.dirs=C:/kafka_2.12-2.0.0/data/kafka
+
+# start Kafka
+kafka-server-start.bat config\server.properties
+# Kafka is running! 
+# Keep the two command line windows opened
