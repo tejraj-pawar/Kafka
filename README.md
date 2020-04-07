@@ -17,3 +17,7 @@
 
 ##### 4] com.yolo.kafka.streams.FilterTweetsUsingStream.java 
 -This files takes tweets from kafka and pushes only those tweets back to kafka having user's follower count > 1000.
+
+* #### kafka-window-setup.txt: This file contains how to setup KAFKA and ZOOKEEPER.
+
+* #### kafka-window-setup.txt: This file contains KAFKA CLI Commands for creation of topic, cosumer, producer, consumer-group, etc..
