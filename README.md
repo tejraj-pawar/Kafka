@@ -2,7 +2,7 @@
 
 **This project is performing following task:**
 
-*Real-Time Tiwtter Tweets -> Kafka Producer -> **KAFKA** -> Kafka Consumer -> ElasticSearch Cluster*
+*Real-Time Twitter Tweets -> Kafka Producer -> **KAFKA** -> Kafka Consumer -> ElasticSearch Cluster*
 
 * #### Packages and files inside **src/main/java** and their description:
 
