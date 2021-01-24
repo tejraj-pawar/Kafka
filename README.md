@@ -21,3 +21,5 @@
 * #### kafka-window-setup.txt: This file contains how to setup KAFKA and ZOOKEEPER.
 
 * #### kafka-window-setup.txt: This file contains KAFKA CLI Commands for creation of topic, cosumer, producer, consumer-group, etc..
+
+* #### /kafka-stack-docker-compose-master: This folder contains docker-compose files for Single/Mutli Zookeeper and Single/Multi Broker kafka cluster.
